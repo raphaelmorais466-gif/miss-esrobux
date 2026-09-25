@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robux Rewards — Demonstração</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; color:#f5f7fb;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 50% 35%,#0b1c38 0,#050c19 48%,#020711 100%);
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:
+    radial-gradient(circle at 12% 18%,transparent 0 34px,#e5ad25 35px 37px,transparent 38px),
+    radial-gradient(circle at 90% 30%,transparent 0 46px,#e5ad25 47px 49px,transparent 50px);
+}
+header{
+  height:78px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.05)
+}
+.brand{font-weight:800;letter-spacing:3px;color:#f3bf38;font-size:20px}
+.pill{border:1px solid #273244;border-radius:30px;padding:13px 22px;color:#ddd;letter-spacing:2px}
+main{max-width:700px;margin:auto;padding:70px 28px 60px}
+.hero{text-align:center}
+.coins{font-size:48px;color:#f5bd32;margin-bottom:22px}
+h1{font-size:clamp(36px,8vw,58px);margin:0;color:#ffc534}
+.subtitle{font-size:23px;color:#aab1bd;margin:20px 0 38px}
+.progress{height:14px;border:1px solid #273244;border-radius:20px;overflow:hidden;margin-bottom:40px}
+.bar{height:100%;width:25%;background:#ffc332;border-radius:20px;transition:width .3s}
+.card{background:#101720;border:1px solid #27313e;border-radius:34px;padding:30px;margin-bottom:24px;box-shadow:0 15px 50px #0005}
+.step{font-size:30px;font-weight:800;margin-bottom:25px}
+.step span{color:#777f8c;margin-right:15px}
+input{
+ width:100%;padding:20px;border-radius:28px;border:1px solid #293442;
+ background:#050b13;color:white;font-size:20px;outline:none
+}
+button,.linkbtn{
+ width:100%;padding:20px;border-radius:32px;border:1px solid #303b49;
+ background:#050b13;color:#ddd;font-size:18px;font-weight:800;cursor:pointer;
+ text-decoration:none;display:block;text-align:center;margin-top:18px
+}
+.primary{background:linear-gradient(90deg,#f2b51e,#ffd34e);color:#111;border:0}
+button:disabled{opacity:.5;cursor:not-allowed}
+.profile{text-align:center;padding:25px;border:1px solid #293442;border-radius:30px;background:#050b13}
+.avatar{width:105px;height:105px;border-radius:50%;margin:auto;background:#ffe76b;color:#111;display:grid;place-items:center;font-size:52px}
+.nick{font-size:23px;font-weight:800;margin-top:15px}
+.muted{color:#929aa7;margin-top:8px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.option{padding:28px 10px;border-radius:28px;background:#050b13;border:1px solid #293442;text-align:center;cursor:pointer}
+.option.selected{border-color:#ffc332;box-shadow:0 0 20px #ffc33233}
+.option strong{display:block;font-size:26px;margin-top:10px}
+.option small{letter-spacing:3px;color:#8d949f}
+.mission{border:1px solid #293442;border-radius:25px;padding:22px;margin:15px 0;background:#050b13;color:#cdd2da;line-height:1.5}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid #b88b22;color:#f5bd32;margin-right:12px}
+.notice{color:#a2a9b5;text-align:center;line-height:1.6;font-size:14px;margin:30px 10px}
+.hidden{display:none}
+@media(max-width:520px){
+ header{padding:0 18px}.brand{font-size:16px}.pill{font-size:12px;padding:10px 13px}
+ main{padding:45px 18px}.card{padding:24px;border-radius:28px}
+ .subtitle{font-size:18px}.grid{gap:10px}.option{padding:22px 5px}.option strong{font-size:21px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">◈ ROBUX REWARDS</div>
+  <div class="pill">◈ PLATAFORMA</div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="coins">◈ ◇ ◈</div>
+  <h1>Resgate seus Robux</h1>
+  <div class="subtitle">Demonstração interativa — não é uma promoção oficial da Roblox.</div>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+</section>
+
+<section id="s1" class="card">
+  <div class="step"><span>1</span>Digite seu nick do Roblox</div>
+  <input id="nick" placeholder="ex: Builderman" maxlength="30">
+  <button class="primary" onclick="go2()">CONTINUAR</button>
+</section>
+
+<section id="s2" class="card hidden">
+  <div class="step"><span>2</span>Confirmar sua conta</div>
+  <div class="profile">
+    <div class="avatar">🙂</div>
+    <div class="nick" id="showNick">@usuário</div>
+    <div class="muted">Dado informado nesta demonstração</div>
+  </div>
+  <p style="text-align:center;font-size:20px">É você mesmo?</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+    <button onclick="go1()">NÃO, CORRIGIR</button>
+    <button class="primary" onclick="go3()">SIM, SOU EU</button>
+  </div>
+</section>
+
+<section id="s3" class="card hidden">
+  <div class="step"><span>3</span>Escolha uma quantidade</div>
+  <div class="grid">
+    <div class="option" onclick="pick(this,'400')">◈<strong>400</strong><small>ROBUX</small></div>
+    <div class="option" onclick="pick(this,'800')">◈<strong>800</strong><small>ROBUX</small></div>
+    <div class="option" onclick="pick(this,'1.700')">◈<strong>1.700</strong><small>ROBUX</small></div>
+    <div class="option" onclick="pick(this,'4.500')">◈<strong>4.500</strong><small>ROBUX</small></div>
+    <div class="option" onclick="pick(this,'10.000')">◈<strong>10.000</strong><small>ROBUX</small></div>
+    <div class="option" onclick="pick(this,'22.500')">◈<strong>22.500</strong><small>ROBUX</small></div>
+  </div>
+  <button id="choose" class="primary" disabled onclick="go4()">ESCOLHA UMA QUANTIA</button>
+</section>
+
+<section id="s4" class="card hidden">
+  <div class="step"><span>4</span>Complete a demonstração</div>
+  <p style="font-size:19px;color:#aab1bd">Esta etapa é apenas um exemplo de fluxo. O botão abaixo abre o link que você forneceu.</p>
+  <div class="mission"><span class="num">1</span>Abra o link da campanha.</div>
+  <div class="mission"><span class="num">2</span>Confira o conteúdo diretamente no TikTok.</div>
+  <div class="mission"><span class="num">3</span>Não informe sua senha do Roblox ou códigos de autenticação.</div>
+  <a class="linkbtn primary" href="https://www.tiktok.com/d/4/ZS9Abj4opYf98-6p9LC/" target="_blank" rel="noopener noreferrer">
+    ABRIR LINK
+  </a>
+</section>
+
+<p class="notice">
+  Protótipo independente para demonstração. Não é afiliado à Roblox Corporation.
+  Este site não coleta senha, código de autenticação ou dados de login.
+</p>
+</main>
+
+<script>
+let selected="";
+function progress(n){document.getElementById("bar").style.width=(n*25)+"%"}
+function show(id){document.querySelectorAll(".card").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden")}
+function go1(){show("s1");progress(0)}
+function go2(){
+ const n=document.getElementById("nick").value.trim();
+ if(!n){alert("Digite seu nick primeiro.");return}
+ document.getElementById("showNick").textContent="@"+n;
+ show("s2");progress(25)
+}
+function go3(){show("s3");progress(50)}
+function pick(el,value){
+ document.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));
+ el.classList.add("selected");selected=value;
+ const b=document.getElementById("choose");b.disabled=false;b.textContent="CONTINUAR COM "+value+" ROBUX";
+}
+function go4(){if(!selected)return;show("s4");progress(75)}
+</script>
+</body>
+</html>
